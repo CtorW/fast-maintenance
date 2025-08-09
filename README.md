@@ -1,2 +1,5 @@
-# fast-maintenance
-Update the system  &amp;&amp; Clean the cache &amp;&amp; updates aur &amp;&amp; Orphans checker &amp;&amp; Mirror reflector
+## How to use
+```bash
+git clone https://github.com/CtorW/fast-maintenance ~/fastfix
+cd fastfix && chmod +x fastmaintenance.sh && sudo ./fastmaintenance.sh
+```
