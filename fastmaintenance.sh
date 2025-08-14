@@ -201,7 +201,17 @@ select_option() {
     local num_options=${#options[@]}
     local selected=0
     
+    local BCyan_BG_Black="$(tput setab 6; tput setaf 0)"
+
     echo -e "${BIWhite}Please select an option using the arrow keys and Enter:${Color_Off}"
+
+    for i in "${!options[@]}"; do
+        if [ "$i" -eq $selected ]; then
+            echo -e "${BCyan_BG_Black} > ${options[$i]} ${Color_Off}"
+        else
+            echo -e "${BYellow}   ${options[$i]} ${Color_Off}"
+        fi
+    done
 
     while true; do
         tput cuu "${num_options}"
@@ -209,24 +219,24 @@ select_option() {
         for i in "${!options[@]}"; do
             tput el
             if [ "$i" -eq $selected ]; then
-                echo -e "${BICyan}> ${options[$i]}${Color_Off}"
+                echo -e "${BCyan_BG_Black} > ${options[$i]} ${Color_Off}"
             else
-                echo -e "${BYellow}  ${options[$i]}${Color_Off}"
+                echo -e "${BYellow}   ${options[$i]} ${Color_Off}"
             fi
         done
 
         read -rsn1 key
         case "$key" in
-            $'\x1b')
+            $'\x1b') 
                 read -rsn2 -t 0.1 key
                 case "$key" in
-                    '[A')
+                    '[A') # Up arrow
                         ((selected--))
                         if [ $selected -lt 0 ]; then
                             selected=$((num_options - 1))
                         fi
                         ;;
-                    '[B')
+                    '[B') # Down arrow
                         ((selected++))
                         if [ $selected -ge $num_options ]; then
                             selected=0
@@ -234,7 +244,7 @@ select_option() {
                         ;;
                 esac
                 ;;
-            '')
+            '') # Enter key
                 echo
                 break
                 ;;
@@ -243,7 +253,6 @@ select_option() {
 
     return $selected
 }
-
 main() {
   if [ "$(id -u)" -ne 0 ]; then
     print_error "This script must be run as root. Please use 'sudo ./maintenance.sh'."
