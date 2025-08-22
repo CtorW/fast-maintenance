@@ -324,7 +324,7 @@ select_option() {
 
 main() {
     if [ "$(id -u)" -ne 0 ]; then
-        print_error "This script must be run as root. Please use 'sudo ./maintenance.sh'."
+        print_error "This script must be run as root. Please use 'sudo ./fast-maintenance.sh'."
         exit 1
     fi
     check_dependencies
